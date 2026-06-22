@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController as AdminProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +36,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/laporan', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/laporan/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.export-pdf');
     Route::get('/laporan/export-excel', [ReportController::class, 'exportExcel'])->name('reports.export-excel');
+
+    Route::get('/pengguna', [UserController::class, 'index'])->name('users.index');
+    Route::get('/pengguna/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/pengguna', [UserController::class, 'store'])->name('users.store');
+    Route::get('/pengguna/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/pengguna/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/pengguna/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
     Route::get('/activity-log', [ActivityLogController::class, 'index'])->name('activity-log.index');
 

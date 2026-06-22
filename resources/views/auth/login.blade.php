@@ -152,6 +152,11 @@
                         <span x-show="!loading">Masuk</span>
                     </button>
                 </form>
+
+                <p class="mt-6 text-center text-sm text-gray-500">
+                    Belum punya akun?
+                    <a href="{{ route('register') }}" class="font-semibold text-[#1e3a5f] hover:text-[#162d4a] transition-colors">Daftar</a>
+                </p>
             </div>
 
             {{-- Footer --}}

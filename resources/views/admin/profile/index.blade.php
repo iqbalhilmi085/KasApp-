@@ -51,4 +51,4 @@
             </form>
         </x-card>
     </div>
-endsection
+@endsection

@@ -144,4 +144,4 @@
 
         <x-pagination :paginator="$transactions" />
     </div>
-@endSection
+@endsection
