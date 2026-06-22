@@ -1,20 +1,51 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController as AdminProfileController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/balance', [DashboardController::class, 'refreshBalance'])->name('dashboard.balance');
+
+    Route::get('/transaksi', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::get('/transaksi/create', [TransactionController::class, 'create'])->name('transactions.create');
+    Route::post('/transaksi', [TransactionController::class, 'store'])->name('transactions.store');
+    Route::get('/transaksi/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+    Route::get('/transaksi/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+    Route::put('/transaksi/{id}', [TransactionController::class, 'update'])->name('transactions.update');
+    Route::delete('/transaksi/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+
+    Route::get('/kategori', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/kategori/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/kategori', [CategoryController::class, 'store'])->name('categories.store');
+    Route::get('/kategori/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/kategori/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/kategori/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
+    Route::get('/laporan', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/laporan/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.export-pdf');
+    Route::get('/laporan/export-excel', [ReportController::class, 'exportExcel'])->name('reports.export-excel');
+
+    Route::get('/activity-log', [ActivityLogController::class, 'index'])->name('activity-log.index');
+
+    Route::get('/profil', [AdminProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profil', [AdminProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profil/password', [AdminProfileController::class, 'updatePassword'])->name('profile.update-password');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/laporan', [ReportController::class, 'index'])->name('reports.public.index');
+    Route::get('/laporan/export/{bulan}/{tahun}', [ReportController::class, 'exportPdf'])->name('reports.public.export-pdf');
+});
+
+require __DIR__ . '/auth.php';
