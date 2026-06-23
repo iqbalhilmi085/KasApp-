@@ -3,20 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Carbon;
 
 class ActivityLog extends Model
 {
-    const UPDATED_AT = null;
+    protected $table = 'activity_logs';
 
     protected $fillable = [
         'user_id',
         'action',
         'model_type',
         'model_id',
-        'old_values',
-        'new_values',
+        'data',
         'ip_address',
         'user_agent',
     ];
@@ -24,31 +22,20 @@ class ActivityLog extends Model
     protected function casts(): array
     {
         return [
-            'old_values' => 'array',
-            'new_values' => 'array',
+            'data' => 'json',
         ];
     }
 
-    public function user(): BelongsTo
+    public static function record(string $action, ?string $modelType = null, ?int $modelId = null, array $data = []): self
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public static function record(
-        string $action,
-        ?Model $model = null,
-        mixed $old = null,
-        mixed $new = null
-    ): self {
         return self::create([
             'user_id' => auth()->id(),
             'action' => $action,
-            'model_type' => $model ? get_class($model) : null,
-            'model_id' => $model ? $model->getKey() : null,
-            'old_values' => $old,
-            'new_values' => $new,
-            'ip_address' => Request::ip(),
-            'user_agent' => Request::userAgent(),
+            'model_type' => $modelType,
+            'model_id' => $modelId,
+            'data' => $data,
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
         ]);
     }
 }

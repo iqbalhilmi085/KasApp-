@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\ActivityLogController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController as AdminProfileController;
 use App\Http\Controllers\ReportController;
@@ -26,13 +24,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::put('/transaksi/{id}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::delete('/transaksi/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 
-    Route::get('/kategori', [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('/kategori/create', [CategoryController::class, 'create'])->name('categories.create');
-    Route::post('/kategori', [CategoryController::class, 'store'])->name('categories.store');
-    Route::get('/kategori/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-    Route::put('/kategori/{id}', [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/kategori/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-
     Route::get('/laporan', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/laporan/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.export-pdf');
     Route::get('/laporan/export-excel', [ReportController::class, 'exportExcel'])->name('reports.export-excel');
@@ -43,9 +34,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/pengguna/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/pengguna/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/pengguna/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-
-    Route::get('/activity-log', [ActivityLogController::class, 'index'])->name('activity-log.index');
-
     Route::get('/profil', [AdminProfileController::class, 'index'])->name('profile.index');
     Route::put('/profil', [AdminProfileController::class, 'update'])->name('profile.update');
     Route::put('/profil/password', [AdminProfileController::class, 'updatePassword'])->name('profile.update-password');

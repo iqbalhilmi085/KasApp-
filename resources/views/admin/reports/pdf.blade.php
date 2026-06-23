@@ -58,9 +58,7 @@
         <thead>
             <tr>
                 <th style="width:10%">Tanggal</th>
-                <th style="width:10%">Ref#</th>
                 <th style="width:25%">Deskripsi</th>
-                <th style="width:18%">Kategori</th>
                 <th style="width:12%" class="text-center">Tipe</th>
                 <th style="width:25%" class="text-right">Jumlah</th>
             </tr>
@@ -69,9 +67,7 @@
             @forelse ($transactions as $t)
                 <tr>
                     <td>{{ $t->transaction_date->format('d/m/Y') }}</td>
-                    <td style="font-size:8pt;">{{ $t->reference_number ?? '-' }}</td>
                     <td>{{ $t->description ?? '-' }}</td>
-                    <td>{{ $t->category->name }}</td>
                     <td class="text-center {{ $t->type === 'income' ? 'text-green' : 'text-red' }}">{{ $t->type === 'income' ? 'Pemasukan' : 'Pengeluaran' }}</td>
                     <td class="text-right {{ $t->type === 'income' ? 'text-green' : 'text-red' }}">
                         {{ $t->type === 'income' ? '+' : '-' }}Rp {{ number_format($t->amount, 2, ',', '.') }}
@@ -79,7 +75,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="text-center" style="padding:20px; color:#94a3b8;">Tidak ada transaksi periode ini</td>
+                    <td colspan="4" class="text-center" style="padding:20px; color:#94a3b8;">Tidak ada transaksi periode ini</td>
                 </tr>
             @endforelse
         </tbody>

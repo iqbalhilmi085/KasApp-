@@ -9,11 +9,9 @@ class Transaction extends Model
 {
     protected $fillable = [
         'user_id',
-        'category_id',
         'type',
         'amount',
         'description',
-        'reference_number',
         'transaction_date',
         'attachment',
     ];
@@ -29,11 +27,6 @@ class Transaction extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
     }
 
     public function getFormattedAmountAttribute(): string

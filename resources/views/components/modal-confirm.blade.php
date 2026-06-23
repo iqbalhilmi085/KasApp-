@@ -12,7 +12,7 @@
 <div
     x-data="{ show: false }"
     x-cloak
-    x-init="window.showModal{{ ucfirst($id) }} = () => { show = true }"
+    @@open-modal-{{ $id }}.window="show = true"
     x-show="show"
     @@keydown.escape.window="show = false"
     class="fixed inset-0 z-[100] flex items-center justify-center p-4"

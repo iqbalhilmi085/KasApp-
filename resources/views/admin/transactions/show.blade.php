@@ -14,10 +14,7 @@
                         </span>
                     </dd>
                 </div>
-                <div class="flex justify-between py-2 border-b border-gray-100">
-                    <dt class="text-sm text-gray-500">Kategori</dt>
-                    <dd class="text-sm font-medium text-gray-900">{{ $transaction->category->name }}</dd>
-                </div>
+
                 <div class="flex justify-between py-2 border-b border-gray-100">
                     <dt class="text-sm text-gray-500">Jumlah</dt>
                     <dd class="text-sm font-bold {{ $transaction->type === 'income' ? 'text-emerald-600' : 'text-red-600' }}">{{ $transaction->formatted_amount }}</dd>
@@ -30,10 +27,7 @@
                     <dt class="text-sm text-gray-500">Keterangan</dt>
                     <dd class="text-sm text-gray-700 max-w-[300px] text-right">{{ $transaction->description ?? '-' }}</dd>
                 </div>
-                <div class="flex justify-between py-2 border-b border-gray-100">
-                    <dt class="text-sm text-gray-500">No. Referensi</dt>
-                    <dd class="text-sm font-medium text-gray-900">{{ $transaction->reference_number ?? '-' }}</dd>
-                </div>
+
                 <div class="flex justify-between py-2 border-b border-gray-100">
                     <dt class="text-sm text-gray-500">Input oleh</dt>
                     <dd class="text-sm text-gray-700">{{ $transaction->user->name }}</dd>

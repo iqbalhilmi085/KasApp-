@@ -80,22 +80,7 @@
             </div>
             <div class="lg:col-span-2">
                 <x-card title="Pengeluaran per Kategori">
-                    @if ($topKategoriChart->isNotEmpty())
-                        <canvas id="donutChart" height="200"></canvas>
-                        <div class="mt-4 space-y-2">
-                            @foreach ($topKategoriChart as $k)
-                                <div class="flex items-center justify-between text-sm">
-                                    <div class="flex items-center gap-2 min-w-0">
-                                        <span class="w-3 h-3 rounded-full shrink-0" style="background: {{ $loop->index === 0 ? '#3b82f6' : ($loop->index === 1 ? '#ef4444' : ($loop->index === 2 ? '#f59e0b' : ($loop->index === 3 ? '#10b981' : '#8b5cf6'))) }}"></span>
-                                        <span class="text-gray-600 truncate">{{ $k['name'] }}</span>
-                                    </div>
-                                    <span class="text-gray-900 font-semibold tabular-nums">{{ $k['percentage'] }}%</span>
-                                </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <p class="text-sm text-gray-400 text-center py-8">Belum ada data pengeluaran bulan ini</p>
-                    @endif
+                    <p class="text-sm text-gray-400 text-center py-8">Fitur kategori sedang dinonaktifkan</p>
                 </x-card>
             </div>
         </div>
@@ -109,7 +94,6 @@
                             <tr class="bg-gray-50 border-b border-gray-200">
                                 <th class="text-left px-6 py-3 font-semibold text-gray-600 text-xs uppercase tracking-wider">Tanggal</th>
                                 <th class="text-left px-6 py-3 font-semibold text-gray-600 text-xs uppercase tracking-wider">Deskripsi</th>
-                                <th class="text-left px-6 py-3 font-semibold text-gray-600 text-xs uppercase tracking-wider">Kategori</th>
                                 <th class="text-left px-6 py-3 font-semibold text-gray-600 text-xs uppercase tracking-wider">Tipe</th>
                                 <th class="text-right px-6 py-3 font-semibold text-gray-600 text-xs uppercase tracking-wider">Jumlah</th>
                             </tr>
@@ -119,7 +103,6 @@
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="px-6 py-3.5 text-gray-700 whitespace-nowrap">{{ $t->transaction_date->format('d/m/Y') }}</td>
                                     <td class="px-6 py-3.5 text-gray-900 max-w-[200px] truncate">{{ $t->description ?? '-' }}</td>
-                                    <td class="px-6 py-3.5 text-gray-600">{{ $t->category->name }}</td>
                                     <td class="px-6 py-3.5">
                                         <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full {{ $t->type === 'income' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700' }}">
                                             {{ $t->type === 'income' ? 'Pemasukan' : 'Pengeluaran' }}
@@ -272,49 +255,7 @@
             });
         }
 
-        {{-- Donut Chart --}}
-        const donutCtx = document.getElementById('donutChart');
-        if (donutCtx) {
-            const donutLabels = {!! json_encode($topKategoriChart->pluck('name')) !!};
-            const donutData = {!! json_encode($topKategoriChart->pluck('total')) !!};
 
-            if (donutLabels.length > 0) {
-                new Chart(donutCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: donutLabels,
-                        datasets: [{
-                            data: donutData,
-                            backgroundColor: colors.slice(0, donutLabels.length),
-                            borderWidth: 0,
-                            hoverOffset: 8,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        cutout: '65%',
-                        plugins: {
-                            legend: {
-                                display: false,
-                            },
-                            tooltip: {
-                                backgroundColor: '#1e293b',
-                                titleFont: { family: 'Inter' },
-                                bodyFont: { family: 'Inter' },
-                                callbacks: {
-                                    label: function(ctx) {
-                                        const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
-                                        const pct = ((ctx.parsed / total) * 100).toFixed(1);
-                                        return 'Rp ' + Number(ctx.parsed).toLocaleString('id-ID') + ' (' + pct + '%)';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
     });
 </script>
 @endpush

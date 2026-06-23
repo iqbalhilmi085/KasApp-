@@ -41,17 +41,7 @@
                     @error('type') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
 
-                {{-- Kategori --}}
-                <div>
-                    <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                    <select name="category_id" id="category_id" class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f] outline-none transition-colors @error('category_id') border-red-500 @enderror" required>
-                        <option value="">Pilih kategori</option>
-                        <template x-for="cat in filteredCategories" :key="cat.id">
-                            <option :value="cat.id" :selected="'{{ old('category_id') }}' == cat.id" x-text="cat.name"></option>
-                        </template>
-                    </select>
-                    @error('category_id') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                </div>
+
 
                 {{-- Jumlah --}}
                 <div>
@@ -82,12 +72,6 @@
                     @error('transaction_date') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
 
-                {{-- No Referensi --}}
-                <div>
-                    <label for="reference_number" class="block text-sm font-medium text-gray-700 mb-1">Nomor Referensi <span class="text-gray-400 font-normal">(opsional)</span></label>
-                    <input type="text" id="reference_number" name="reference_number" value="{{ old('reference_number') }}" placeholder="INV/2024/001" class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f] outline-none transition-colors @error('reference_number') border-red-500 @enderror">
-                    @error('reference_number') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                </div>
 
                 {{-- Deskripsi --}}
                 <div>
@@ -143,15 +127,6 @@
             amountDisplay: '',
             amount: '',
             attachmentPreview: null,
-            categories: {!! json_encode($categories->map(function ($group, $type) {
-                return $group->map(function ($cat) {
-                    return ['id' => $cat->id, 'name' => $cat->name, 'type' => $cat->type];
-                });
-            })->flatten(1)->values()) !!},
-
-            get filteredCategories() {
-                return this.categories.filter(c => c.type === this.type);
-            },
 
             formatAmount(e) {
                 let val = e.target.value.replace(/[^\d]/g, '');
