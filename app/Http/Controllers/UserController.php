@@ -39,7 +39,7 @@ class UserController extends Controller
 
         $user = User::create($validated);
 
-        ActivityLog::record('users.create', $user);
+        ActivityLog::record('users.create', get_class($user), $user->id, $user->toArray());
 
         return redirect()
             ->route('users.index')
@@ -74,7 +74,7 @@ class UserController extends Controller
         $user->is_active = $request->boolean('is_active');
         $user->save();
 
-        ActivityLog::record('users.update', $user);
+        ActivityLog::record('users.update', get_class($user), $user->id, $user->toArray());
 
         return redirect()
             ->route('users.index')
@@ -93,7 +93,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        ActivityLog::record('users.delete', $user);
+        ActivityLog::record('users.delete', get_class($user), $user->id, $user->toArray());
 
         return redirect()
             ->route('users.index')

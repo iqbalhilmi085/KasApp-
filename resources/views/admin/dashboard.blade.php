@@ -134,33 +134,6 @@
             @endif
         </x-card>
 
-        {{-- Section 4: Quick Actions --}}
-        <div>
-            <h3 class="text-base font-semibold text-gray-900 mb-3">Aksi Cepat</h3>
-            <div class="flex flex-wrap gap-3">
-                <a href="{{ route('transactions.create') }}?type=income"
-                    class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 shadow-sm shadow-emerald-200 transition-colors">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                    Tambah Pemasukan
-                </a>
-                <a href="{{ route('transactions.create') }}?type=expense"
-                    class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 shadow-sm shadow-red-200 transition-colors">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                    </svg>
-                    Tambah Pengeluaran
-                </a>
-                <a href="{{ route('reports.export-pdf', ['month' => now()->format('m'), 'year' => now()->format('Y')]) }}"
-                    class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 shadow-sm transition-colors">
-                    <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                    </svg>
-                    Export Laporan Bulan Ini
-                </a>
-            </div>
-        </div>
     </div>
 @endsection
 
@@ -168,7 +141,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const chartData = {!! json_encode($chartData) !!};
-        const colors = ['#3b82f6', '#ef4444', '#f59e0b', '#10b981', '#8b5cf6'];
 
         {{-- Line Chart --}}
         const lineCtx = document.getElementById('lineChart');
@@ -254,8 +226,6 @@
                 }
             });
         }
-
-
     });
 </script>
 @endpush
