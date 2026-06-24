@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 class ActivityLog extends Model
@@ -24,6 +25,11 @@ class ActivityLog extends Model
         return [
             'data' => 'json',
         ];
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public static function record(string $action, ?string $modelType = null, ?int $modelId = null, array $data = []): self
